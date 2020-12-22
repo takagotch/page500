@@ -1,0 +1,25 @@
+name: Unit Test / Lint
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Package Check
+        run: |
+          npm run check:package
+      - name: Lint
+        run: |
+          npm run lint:types
+          npm run lint
+      - name: Test
+        run: npm test
+        env:
+          CI: true
+      - name: Build
+        run: npm run build
